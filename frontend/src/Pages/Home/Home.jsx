@@ -60,7 +60,7 @@ const Home = () => {
             size="xl"
 fw={700}
             style={{
-              color: "#f1f1f1",
+              color: "#4b14ce",
               marginTop: "0.8rem",
               marginBottom: "2rem",
               fontWeight: 400,
