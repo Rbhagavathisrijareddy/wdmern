@@ -4,9 +4,11 @@ import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
 import morgan from "morgan"; // Import morgan
+import jwt from "jsonwebtoken";
 import connectDB from "./db/dbConnect.js";
 import { config } from "./config.js";
 import authRouter from "./routes/authRouter.js";
+import { User as userModel } from "./models/user/user.model.js";
 const app = express();
 
 // middlewares
@@ -31,6 +33,29 @@ connectDB();
 
 app.use("/api/auth", authRouter);
 
+app.get("/api/user/me", async (req, res) => {
+  try {
+    const token = req.cookies.jwt;
+    if (!token) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const decoded = jwt.verify(token, config.JWT_SECRET);
+    if (!decoded?.id) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    const user = await userModel.findById(decoded.id).select("name email avatar role createdAt");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.json({ status: "SUCCESS", data: user });
+  } catch (error) {
+    console.error("Error loading user profile:", error.message);
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+});
 
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
