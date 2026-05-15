@@ -121,30 +121,11 @@ export const URLHistory = () => {
                         {paginatedData.length > 0 ? (
                             paginatedData.map((element) => (
                                 <Table.Tr key={element._id}>
-                                    <Table.Td>
-                                        {element.originalUrl}
-                                    </Table.Td>
-
-                                    <Table.Td>
-                                        {element.shortCode}
-                                    </Table.Td>
-
-                                    <Table.Td>
-                                        {element.clickCount}
-                                    </Table.Td>
-
-                                    <Table.Td>
-                                        {new Date(
-                                            element.createdAt
-                                        ).toLocaleString()}
-                                    </Table.Td>
-
-                                    <Table.Td>
-                                        {new Date(
-                                            element.expiresAt
-                                        ).toLocaleString()}
-                                    </Table.Td>
-
+                                    <Table.Td>{element.originalUrl}</Table.Td>
+                                    <Table.Td>{element.shortCode}</Table.Td>
+                                    <Table.Td>{element.clickCount}</Table.Td>
+                                    <Table.Td>{(element.createdAt)}</Table.Td>
+                                    <Table.Td>{new Date(element.expiresAt).toLocaleString()}</Table.Td>
                                     <Table.Td>
                                         <Group gap="xs">
                                             <Button
